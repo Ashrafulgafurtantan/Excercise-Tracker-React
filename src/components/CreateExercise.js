@@ -1,17 +1,35 @@
-import React from "react";
-//import axios from "axios";
+import React, { useEffect } from "react";
+import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import * as Err from "react-bootstrap";
 function CreateExercise() {
   const [detail, setDetail] = React.useState({
     username: "",
     description: "",
     duration: 0,
     date: new Date(),
-    users: ["Ashraf", "Tuan", "Yasin"],
+    users: ["Tuan", "Yasin", "Ashraf"],
   });
-  // const [selectedDate, setDate] = React.useState(null);
+  const [dataUsers, setDataUsers] = React.useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/users")
+      .then((response) => {
+        const { data } = response;
+        console.log(data);
+        data.map((val) => {
+          return setDataUsers((prevValue) => {
+            return [...prevValue, val.username];
+          });
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [setDataUsers]);
+
   function handleChange(event) {
     const { name, value } = event.target;
     console.log(name + " = " + value);
@@ -23,7 +41,7 @@ function CreateExercise() {
     });
   }
   function handleSubmit(event) {
-    event.preventDefault();
+    // event.preventDefault();
     const payload = {
       username: detail.username,
       description: detail.description,
@@ -32,34 +50,46 @@ function CreateExercise() {
       date: detail.date,
     };
     console.log(payload);
-    // axios({
-    //   url: "http://localhost:5000/exercises/add",
-    //   method: "POST",
-    //   data: payload,
-    // })
-    //   .then(() => {
-    //     console.log("data sent success");
-    //     setStory({ title: "", body: "" });
-    //   })
-    //   .catch(() => {
-    //     console.log("data sent failure");
-    //   });
+    axios({
+      url: "http://localhost:5000/exercises/add",
+      method: "POST",
+      data: payload,
+    })
+      .then(() => {
+        console.log("data sent success");
+        setDetail({
+          username: "",
+          description: "",
+          duration: 0,
+          date: new Date(),
+          users: ["Tuan", "Yasin", "Ashraf"],
+        });
+      })
+      .catch(() => {
+        console.log("data sent failure");
+      });
   }
   return (
     <div>
       <h3>Create New Exercise Log</h3>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className="from-group">
           <label>Username: </label>
-
-          <input
-            type="text"
-            name="username"
+          <select
             required
             className="form-control"
-            value={detail.username}
+            name="username"
+            defaultValue=""
             onChange={handleChange}
-          />
+          >
+            {dataUsers.map((val, index) => {
+              return (
+                <option key={index} value={val}>
+                  {val}
+                </option>
+              );
+            })}
+          </select>
         </div>
         <div className="form-group">
           <label>Description: </label>
@@ -101,27 +131,17 @@ function CreateExercise() {
         </div>
 
         <div className="form-group">
-          <button type="submit" onClick={handleSubmit}>
+          <Err.Button
+            variant="primary"
+            size="lg"
+            type="submit"
+            onClick={handleSubmit}
+          >
             Submit
-          </button>
+          </Err.Button>
         </div>
       </form>
     </div>
   );
 }
-//  <select
-//     ref="userInput"
-//     required
-//     className="form-control"
-//     value={detail.username}
-//     onChange={handleChange}
-//   >
-//     {detail.users.map(function (user, index) {
-//       return (
-//         <option key={index} value={user}>
-//           {user}
-//         </option>
-//       );
-//     })}
-//   </select>
 export default CreateExercise;
