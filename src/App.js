@@ -13,12 +13,15 @@ function App() {
     <Router>
       <div className="container">
         <Navbar />
+
+        <hr color="gray" width="35%" size="7" />
         <Switch>
           <Route exact path="/" component={ExercisesList} />
           <Route exact path="/edit/:id" component={EditExercise} />
           <Route exact path="/create" component={CreateExercise} />
           <Route exact path="/user" component={CreateUser} />
         </Switch>
+        {/* <hr color="gray" width="35%" size="7" /> */}
       </div>
     </Router>
   );

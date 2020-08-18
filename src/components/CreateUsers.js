@@ -1,7 +1,9 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import axios from "axios";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
 function CreateUsers() {
   const [username, setUsername] = React.useState("");
 
@@ -16,17 +18,26 @@ function CreateUsers() {
       data: payload,
     })
       .then(() => {
-        console.log("data sent success");
+        console.log("data sent successfully");
         setUsername("");
-        window.location = "/";
+        toast.success("data sent successfully", {
+          position: toast.POSITION.BOTTOM_LEFT,
+          autoClose: 1500,
+        });
+        setTimeout(() => {
+          window.location = "/create";
+        }, 1500);
       })
       .catch(() => {
         console.log("data sent failure");
+        toast.error("Name must be unque...", {
+          position: toast.POSITION.BOTTOM_LEFT,
+          autoClose: 2000,
+        });
       });
   }
   function handleChange(event) {
-    const { name, value } = event.target;
-    console.log(name + " = " + value);
+    const { value } = event.target;
     setUsername(value);
   }
 
@@ -48,7 +59,7 @@ function CreateUsers() {
         <div className="form-group">
           <Button
             variant="primary"
-            size="lg"
+            size="md"
             type="submit"
             onClick={handleSubmit}
           >

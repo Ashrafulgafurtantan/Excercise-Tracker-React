@@ -1,0 +1,9 @@
+.navbar-brand {
+  font-family: "Dancing Script", cursive;
+  font-size: xx-large;
+}
+.navbar {
+  background-image: url("../assets/boat.jpg");
+  background-size: cover;
+  font-size: larger;
+}

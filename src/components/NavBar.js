@@ -1,6 +1,6 @@
 import * as ReactBootStrap from "react-bootstrap";
 import React from "react";
-
+import "./NavBar.css";
 const NavBar = () => {
   return (
     <ReactBootStrap.Navbar
@@ -9,7 +9,7 @@ const NavBar = () => {
       bg="dark"
       variant="dark"
     >
-      <ReactBootStrap.Navbar.Brand href="/">
+      <ReactBootStrap.Navbar.Brand href="/" className="brand">
         ExcerTracker
       </ReactBootStrap.Navbar.Brand>
       <ReactBootStrap.Navbar.Toggle aria-controls="responsive-navbar-nav" />

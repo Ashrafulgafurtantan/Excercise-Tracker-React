@@ -5,7 +5,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "react-bootstrap";
 
 import { fetchUserData } from "../database/index";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
 function CreateExercise() {
   const [detail, setDetail] = React.useState({
     username: "",
@@ -32,7 +34,6 @@ function CreateExercise() {
 
   function handleChange(event) {
     const { name, value } = event.target;
-    console.log(name + " = " + value);
     setDetail((prevValue) => {
       return {
         ...prevValue,
@@ -63,11 +64,20 @@ function CreateExercise() {
           duration: 0,
           date: new Date(),
         });
-
-        window.location = "/";
+        toast.success("data sent successfully", {
+          position: toast.POSITION.BOTTOM_LEFT,
+          autoClose: 1500,
+        });
+        setTimeout(() => {
+          window.location = "/";
+        }, 1500);
       })
       .catch(() => {
         console.log("data sent failure");
+        toast.error("Any fields may be missing", {
+          position: toast.POSITION.BOTTOM_LEFT,
+          autoClose: 2000,
+        });
       });
   }
   return (
@@ -108,6 +118,7 @@ function CreateExercise() {
           <input
             type="text"
             name="duration"
+            required
             className="form-control"
             value={detail.duration}
             onChange={handleChange}
