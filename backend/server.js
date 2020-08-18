@@ -10,20 +10,25 @@ const usersRouter = require("./routes/users");
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
-app.use(morgan("tiny"));
-app.use(express.json());
+const dbUrl =
+  "mongodb+srv://" +
+  process.env.DATABASE_NAME +
+  ":" +
+  process.env.DATABASE_PASSWORD +
+  "@cluster0.ozilb.mongodb.net/exerciseDB";
 
-//const uri = process.env.ATLAS_URI;
-mongoose.connect("mongodb://localhost:27017/exerciseDB", {
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
 const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
 });
-
+app.use(cors());
+app.use(morgan("tiny"));
+app.use(express.json());
 app.use("/exercises", exercisesRouter);
 app.use("/users", usersRouter);
 

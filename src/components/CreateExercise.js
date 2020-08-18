@@ -44,7 +44,7 @@ function CreateExercise() {
   function handleSubmit(event) {
     event.preventDefault();
     const payload = {
-      username: detail.username,
+      username: detail.username.length < 3 ? dataUsers[0] : detail.username,
       description: detail.description,
       duration: detail.duration,
 
@@ -90,7 +90,7 @@ function CreateExercise() {
             required
             className="form-control"
             name="username"
-            defaultValue=""
+            defaultValue={dataUsers[0]}
             onChange={handleChange}
           >
             {dataUsers.map((val, index) => {
