@@ -3,6 +3,9 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "react-bootstrap";
+
+import { fetchUserData } from "../database/index";
+
 function CreateExercise() {
   const [detail, setDetail] = React.useState({
     username: "",
@@ -13,20 +16,18 @@ function CreateExercise() {
   const [dataUsers, setDataUsers] = React.useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/users")
-      .then((response) => {
-        const { data } = response;
-        console.log(data);
-        data.map((val) => {
-          return setDataUsers((prevValue) => {
-            return [...prevValue, val.username];
-          });
+    const fetchAPI = async () => {
+      const data = await fetchUserData();
+      console.log(data);
+
+      data.map((val) => {
+        return setDataUsers((prevValue) => {
+          return [...prevValue, val.username];
         });
-      })
-      .catch((err) => {
-        console.log(err);
       });
+    };
+
+    fetchAPI();
   }, [setDataUsers]);
 
   function handleChange(event) {

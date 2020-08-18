@@ -3,7 +3,8 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "react-bootstrap";
-
+import { fetchUserData } from "../database/index";
+import { fetchSingleExerciseData } from "../database/index";
 function EditExercise({ match }) {
   const id = match.params.id;
   console.log(id);
@@ -18,37 +19,31 @@ function EditExercise({ match }) {
   const [dataUsers, setDataUsers] = React.useState([]);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/exercises/${id}`)
-      .then((response) => {
-        const { data } = response;
-
-        setDetail({
-          username: data.username,
-          description: data.description,
-          duration: data.duration,
-          date: new Date(data.date.substring(0, 10)),
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+    const fetchSingleAPI = async () => {
+      const data = await fetchSingleExerciseData(id);
+      console.log(data);
+      setDetail({
+        username: data.username,
+        description: data.description,
+        duration: data.duration,
+        date: new Date(data.date.substring(0, 10)),
       });
+    };
 
-    //////////////////////
+    fetchSingleAPI();
 
-    axios
-      .get("http://localhost:5000/users")
-      .then((response) => {
-        const { data } = response;
-        data.map((val) => {
-          return setDataUsers((prevValue) => {
-            return [...prevValue, val.username];
-          });
+    const fetchAPI = async () => {
+      const data = await fetchUserData();
+      console.log(data);
+
+      data.map((val) => {
+        return setDataUsers((prevValue) => {
+          return [...prevValue, val.username];
         });
-      })
-      .catch((err) => {
-        console.log(err);
       });
+    };
+
+    fetchAPI();
   }, [id, setDetail]);
 
   function handleChange(event) {
