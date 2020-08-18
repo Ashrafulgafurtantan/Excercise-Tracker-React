@@ -4,10 +4,14 @@ import Exercise from "./Exercise";
 const ExercisesList = () => {
   const [exercises, setExercises] = React.useState([]);
 
-  function deleteExe(id) {
+  function deleteExercise(id) {
     axios
-      .delete("http://localhost:5000/exercises" + id)
+      .delete("http://localhost:5000/exercises/" + id)
       .then((res) => console.log(res.data));
+
+    setExercises((prevValue) => {
+      return prevValue.filter((val) => val._id !== id);
+    });
   }
   useEffect(() => {
     axios
@@ -45,8 +49,9 @@ const ExercisesList = () => {
             return (
               <Exercise
                 exercise={currentExercise}
-                deleteExercise={deleteExe}
+                deleteExercise={deleteExercise}
                 key={index}
+                id={currentExercise._id}
               />
             );
           })}

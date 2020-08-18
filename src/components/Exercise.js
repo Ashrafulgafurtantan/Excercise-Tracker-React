@@ -1,6 +1,8 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 function Exercise(props) {
+  const id = props.exercise._id;
   return (
     <tr>
       <td>{props.exercise.username}</td>
@@ -8,15 +10,16 @@ function Exercise(props) {
       <td>{props.exercise.duration}</td>
       <td>{props.exercise.date.substring(0, 10)}</td>
       <td>
-        <Link to={"/edit/" + props.exercise._id}>edit</Link>|{" "}
-        <a
-          href="http://localhost:5000/exercises/update/${props.exercise._id}"
+        <Link to={"/edit/" + id}>edit</Link>|{" "}
+        <Button
+          type="submit"
+          variant="link"
           onClick={() => {
-            props.deleteExercise(props.exercise._id);
+            props.deleteExercise(id);
           }}
         >
           delete
-        </a>
+        </Button>
       </td>
     </tr>
   );

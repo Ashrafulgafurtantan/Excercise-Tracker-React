@@ -18,6 +18,7 @@ function CreateUsers() {
       .then(() => {
         console.log("data sent success");
         setUsername("");
+        window.location = "/";
       })
       .catch(() => {
         console.log("data sent failure");
@@ -32,7 +33,7 @@ function CreateUsers() {
   return (
     <div>
       <h3>Create New User</h3>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="form-group">
           <label>Username: </label>
           <input

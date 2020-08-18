@@ -9,7 +9,6 @@ function CreateExercise() {
     description: "",
     duration: 0,
     date: new Date(),
-    users: ["Tuan", "Yasin", "Ashraf"],
   });
   const [dataUsers, setDataUsers] = React.useState([]);
 
@@ -41,7 +40,7 @@ function CreateExercise() {
     });
   }
   function handleSubmit(event) {
-    // event.preventDefault();
+    event.preventDefault();
     const payload = {
       username: detail.username,
       description: detail.description,
@@ -62,8 +61,9 @@ function CreateExercise() {
           description: "",
           duration: 0,
           date: new Date(),
-          users: ["Tuan", "Yasin", "Ashraf"],
         });
+
+        window.location = "/";
       })
       .catch(() => {
         console.log("data sent failure");
@@ -72,7 +72,7 @@ function CreateExercise() {
   return (
     <div>
       <h3>Create New Exercise Log</h3>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="from-group">
           <label>Username: </label>
           <select
