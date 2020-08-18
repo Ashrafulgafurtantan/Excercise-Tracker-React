@@ -10,7 +10,10 @@ function Exercise(props) {
       <td>{props.exercise.duration}</td>
       <td>{props.exercise.date.substring(0, 10)}</td>
       <td>
-        <Link to={"/edit/" + id}>edit</Link>|{" "}
+        <Button variant="link">
+          <Link to={"/edit/" + id}>edit </Link>
+        </Button>
+        |
         <Button
           type="submit"
           variant="link"

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import * as Err from "react-bootstrap";
+import { Button } from "react-bootstrap";
 function CreateExercise() {
   const [detail, setDetail] = React.useState({
     username: "",
@@ -131,14 +131,14 @@ function CreateExercise() {
         </div>
 
         <div className="form-group">
-          <Err.Button
+          <Button
             variant="primary"
             size="lg"
             type="submit"
             onClick={handleSubmit}
           >
             Submit
-          </Err.Button>
+          </Button>
         </div>
       </form>
     </div>

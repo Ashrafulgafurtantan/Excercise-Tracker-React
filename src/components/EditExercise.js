@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import * as Err from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 function EditExercise({ match }) {
   const id = match.params.id;
@@ -22,7 +22,6 @@ function EditExercise({ match }) {
       .get(`http://localhost:5000/exercises/${id}`)
       .then((response) => {
         const { data } = response;
-        console.log(data);
 
         setDetail({
           username: data.username,
@@ -41,7 +40,6 @@ function EditExercise({ match }) {
       .get("http://localhost:5000/users")
       .then((response) => {
         const { data } = response;
-        console.log(data);
         data.map((val) => {
           return setDataUsers((prevValue) => {
             return [...prevValue, val.username];
@@ -64,7 +62,7 @@ function EditExercise({ match }) {
     });
   }
   function handleSubmit(event) {
-    // event.preventDefault();
+    event.preventDefault();
     const payload = {
       username: detail.username,
       description: detail.description,
@@ -91,6 +89,7 @@ function EditExercise({ match }) {
       .catch(() => {
         console.log("data sent failure");
       });
+    window.location = "/";
   }
   return (
     <div>
@@ -157,14 +156,14 @@ function EditExercise({ match }) {
         </div>
 
         <div className="form-group">
-          <Err.Button
+          <Button
             variant="primary"
             size="lg"
             type="submit"
             onClick={handleSubmit}
           >
             Update
-          </Err.Button>
+          </Button>
         </div>
       </form>
     </div>
